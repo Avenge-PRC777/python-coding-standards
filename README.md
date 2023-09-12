@@ -15,6 +15,8 @@ Contains information on how to write modular, clean, standard python code
     - [@staticmethod decorator](#staticmethod-decorator)
     - [How to use a static class for config then finally](#how-to-use-a-static-class-for-config-then-finally)
 - [enum](#enum)
+- [typing](#typing)
+- [dataclasses](#dataclasses)
 
 
 # Configuration based design
@@ -37,7 +39,7 @@ In a codebase, some or other component like a function may need some parameter v
 
 1. Read the file contents into a variable and keep sending the variable to all functions that would need to use a value like say *"args.Name"*.
 2. Read the file contents into a global variable and import the variable everywhere to use. **Yes we can import variables too from files**:
-```
+```python
 # file.py
 import random
 variable = 3
@@ -53,7 +55,7 @@ Now, personally I have seen the following:
 
 1. Approach 1 usually yeilds unclean code as you have to always keep passing the config variable into every function and its subfunctions.
 2. Approach 2 can lead to global variable pollution (tracking state, unpredictable testing as a function using global variable can have a invisibile dependency on another function using same global variable); also again it's a variable, though imported now, access to parameters will be mostly thru dictionary key value which makes the code not very readable.
-```
+```python
 # code 1
 from config import Config
 load(Config.dataset)
@@ -91,7 +93,7 @@ As such there is no built in way of static class in python like we have in JAVA 
 2. They just modify/decorate another function (add something before and/or after the function)
 3. **If you define a function def func():, then func variable contains reference to the FUNCTION OBJECT i.e., its memory location which is called by adding "()"**. A normal class object may not be callable wherease a function object also just an object is just callable. This is crucial in understanding how decorator works.
 
-```
+```python
 def my_decorator(func):
     def wrapper():
         print("Something is happening before the function is called.")
@@ -109,7 +111,7 @@ say_hello() # Here since function is a decorated function, the decorator is call
 ### @staticmethod decorator
 For a class, we can have a method with @staticmethod decorator that will make it static. **Static methods can't access class variables directly but indirectly thru class name**
 
-```
+```python
 # Normal class method
 class X:
     a=3
@@ -127,7 +129,7 @@ class X:
 ### How to use a static class for config then finally
 
 Let's say your config file has the static class. Just load config to this class in the entrypoint file and then just import the class everywhere else to use the values.
-```
+```python
 # main.py
 from config import Config, set_config
 config_data = read_config(args.config_file)
@@ -142,3 +144,9 @@ Refer to **config.py**.
 
 # enum
 [Go to file](enum.md)
+
+# typing
+[Go to file](typing.md)
+
+# dataclasses
+[Go to file](dataclasses.md)
